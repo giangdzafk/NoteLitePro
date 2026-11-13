@@ -14,6 +14,7 @@ import com.example.notelite3.data.local.Note
 import com.example.notelite3.databinding.BottomSheetQuickAddBinding
 import com.example.notelite3.ui.AppViewModelProvider
 import com.example.notelite3.ui.common.Priority
+import com.example.notelite3.ui.common.setOnPrioritySelectedListener
 import com.example.notelite3.ui.common.showPriorityDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -61,11 +62,13 @@ class QuickAddBottomSheet : BottomSheetDialogFragment() {
         if (binding.edtContent.text.isNotEmpty()) showContentField(focus = false)
         binding.chipContent.setOnClickListener { showContentField(focus = true) }
 
+        // Hộp thoại ưu tiên là DialogFragment con -> kết quả chỉ về khi view còn sống
+        setOnPrioritySelectedListener(REQUEST_PRIORITY) { priority ->
+            selectedPriority = priority
+            renderPriorityChip()
+        }
         binding.chipPriority.setOnClickListener {
-            showPriorityDialog(selectedPriority ?: Note.DEFAULT_PRIORITY) { priority ->
-                selectedPriority = priority
-                renderPriorityChip()
-            }
+            showPriorityDialog(REQUEST_PRIORITY, selectedPriority ?: Note.DEFAULT_PRIORITY)
         }
 
         binding.btnSave.setOnClickListener { save() }
@@ -130,5 +133,6 @@ class QuickAddBottomSheet : BottomSheetDialogFragment() {
         const val TAG = "QuickAddBottomSheet"
         private const val KEY_PRIORITY = "priority"
         private const val NO_PRIORITY = 0
+        private const val REQUEST_PRIORITY = "quick_add_priority"
     }
 }

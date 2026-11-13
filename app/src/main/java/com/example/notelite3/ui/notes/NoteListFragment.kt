@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.notelite3.R
 import com.example.notelite3.databinding.FragmentNoteListBinding
 import com.example.notelite3.ui.AppViewModelProvider
+import com.example.notelite3.ui.common.setOnDeleteConfirmedListener
 import com.example.notelite3.ui.common.showConfirmDeleteDialog
 import com.example.notelite3.ui.edit.NoteEditViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -29,18 +30,19 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
         val adapter = NoteAdapter(
             onClick = { note -> openEditor(note.id) },
-            onLongClick = { note ->
-                showConfirmDeleteDialog {
-                    viewModel.deleteNote(note)
-                    Snackbar.make(binding.root, "Đã xóa ghi chú", Snackbar.LENGTH_LONG)
-                        .setAnchorView(binding.fabAdd)
-                        .setAction("Hoàn tác") { viewModel.restoreNote(note) }
-                        .setActionTextColor(requireContext().getColor(R.color.brand_blue))
-                        .show()
-                }
-            }
+            onLongClick = { note -> showConfirmDeleteDialog(REQUEST_DELETE, note.id) },
         )
         binding.rvNotes.adapter = adapter
+
+        setOnDeleteConfirmedListener(REQUEST_DELETE) { noteId ->
+            val note = adapter.currentList.firstOrNull { it.id == noteId } ?: return@setOnDeleteConfirmedListener
+            viewModel.deleteNote(note)
+            Snackbar.make(binding.root, "Đã xóa ghi chú", Snackbar.LENGTH_LONG)
+                .setAnchorView(binding.fabAdd)
+                .setAction("Hoàn tác") { viewModel.restoreNote(note) }
+                .setActionTextColor(requireContext().getColor(R.color.brand_blue))
+                .show()
+        }
 
         binding.fabAdd.setOnClickListener {
             if (childFragmentManager.findFragmentByTag(QuickAddBottomSheet.TAG) == null) {
@@ -99,5 +101,9 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
                 return true
             }
         })
+    }
+
+    companion object {
+        private const val REQUEST_DELETE = "note_list_delete"
     }
 }

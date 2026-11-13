@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.notelite3.R
 import com.example.notelite3.databinding.FragmentNoteEditBinding
 import com.example.notelite3.ui.common.Priority
+import com.example.notelite3.ui.common.setOnDeleteConfirmedListener
+import com.example.notelite3.ui.common.setOnPrioritySelectedListener
 import com.example.notelite3.ui.common.showConfirmDeleteDialog
 import com.example.notelite3.ui.common.showPriorityDialog
 import com.google.android.material.snackbar.Snackbar
@@ -37,14 +39,17 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
             viewModel.saveAndExit()
         }
 
+        setOnPrioritySelectedListener(REQUEST_PRIORITY) { viewModel.onPriorityChange(it) }
+        setOnDeleteConfirmedListener(REQUEST_DELETE) { viewModel.deleteNote() }
+
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_priority -> {
-                    showPriorityDialog(viewModel.uiState.value.priority) { viewModel.onPriorityChange(it) }
+                    showPriorityDialog(REQUEST_PRIORITY, viewModel.uiState.value.priority)
                     true
                 }
                 R.id.action_delete -> {
-                    showConfirmDeleteDialog { viewModel.deleteNote() }
+                    showConfirmDeleteDialog(REQUEST_DELETE)
                     true
                 }
                 else -> false
@@ -83,5 +88,10 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
         // Chỉ setText khi KHÁC nội dung đang hiển thị (giải thích bên dưới)
         if (binding.edtTitle.text.toString() != state.title) binding.edtTitle.setText(state.title)
         if (binding.edtContent.text.toString() != state.content) binding.edtContent.setText(state.content)
+    }
+
+    companion object {
+        private const val REQUEST_PRIORITY = "note_edit_priority"
+        private const val REQUEST_DELETE = "note_edit_delete"
     }
 }
