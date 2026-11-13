@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- NoteLite dùng giao diện sáng cố định theo mẫu thiết kế -->
+    <style name="Base.Theme.Notelite3" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/brand_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_blue</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="colorControlNormal">@color/text_primary</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.NoteLite.BottomSheet</item>
+    </style>
+
+    <style name="Theme.Notelite3" parent="Base.Theme.Notelite3" />
+
+    <style name="ThemeOverlay.NoteLite.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.NoteLite.BottomSheet</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateVisible</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Bỏ lớp ám màu tím mặc định của Material 3 -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorSurfaceContainerLow">@color/white</item>
+        <item name="colorSurfaceContainer">@color/white</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+</resources>

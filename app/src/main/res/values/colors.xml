@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="note_card">#F5F6F8</color>
+    <color name="text_primary">#1F2024</color>
+    <color name="text_secondary">#8F9098</color>
+    <color name="brand_blue">#6F8BF5</color>
+    <color name="fab_blue">@color/brand_blue</color>
+    <color name="chip_blue_bg">#EEF1FE</color>
+    <color name="danger_red">#F26A6A</color>
+    <color name="neutral_button">#F1F2F4</color>
+    <color name="divider">#ECEDEF</color>
+    <!-- Màu cờ ưu tiên: 1 cao nhất -> 4 thấp nhất -->
+    <color name="priority_1">#E5534B</color>
+    <color name="priority_2">#F28C28</color>
+    <color name="priority_3">#D946EF</color>
+    <color name="priority_4">#3FB950</color>
+</resources>
