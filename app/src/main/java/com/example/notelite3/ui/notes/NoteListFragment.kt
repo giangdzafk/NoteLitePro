@@ -13,16 +13,18 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.notelite3.R
 import com.example.notelite3.databinding.FragmentNoteListBinding
-import com.example.notelite3.ui.AppViewModelProvider
+// [SỬA HILT] Bỏ import AppViewModelProvider: file đó đã bị xóa khi chuyển sang Hilt -> lỗi "Unresolved reference"
 import com.example.notelite3.ui.common.setOnDeleteConfirmedListener
 import com.example.notelite3.ui.common.showConfirmDeleteDialog
 import com.example.notelite3.ui.edit.NoteEditViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
-    private val viewModel: NoteListViewModel by viewModels { AppViewModelProvider.Factory }
+    private val viewModel: NoteListViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notelite3.data.local.Note
 import com.example.notelite3.data.repository.NoteRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class NoteEditUiState(
     val title: String = "",
@@ -26,8 +28,8 @@ sealed interface NoteEditEvent {
     data object Exit : NoteEditEvent
     data class ShowMessage(val message: String) : NoteEditEvent
 }
-
-class NoteEditViewModel(
+@HiltViewModel
+class NoteEditViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val repository: NoteRepository,
 ) : ViewModel() {
@@ -42,7 +44,7 @@ class NoteEditViewModel(
             content = savedStateHandle[KEY_CONTENT] ?: "",
             priority = savedStateHandle[KEY_PRIORITY] ?: Note.DEFAULT_PRIORITY,
             isNewNote = isNewNote,
-            isLoading = !isNewNote,
+            isLoading = !isNewNote
         )
     )
     val uiState: StateFlow<NoteEditUiState> = _uiState.asStateFlow()

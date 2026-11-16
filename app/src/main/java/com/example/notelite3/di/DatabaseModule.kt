@@ -1,0 +1,24 @@
+package com.example.notelite3.di
+
+import android.content.Context
+import com.example.notelite3.data.local.NoteDao
+import com.example.notelite3.data.local.NoteDatabase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object DatabaseModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): NoteDatabase =
+        NoteDatabase.getInstance(context)
+
+    @Provides
+    fun provideNoteDao(database: NoteDatabase): NoteDao = database.noteDao()
+}

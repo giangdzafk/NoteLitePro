@@ -12,20 +12,19 @@ import androidx.fragment.app.viewModels
 import com.example.notelite3.R
 import com.example.notelite3.data.local.Note
 import com.example.notelite3.databinding.BottomSheetQuickAddBinding
-import com.example.notelite3.ui.AppViewModelProvider
 import com.example.notelite3.ui.common.Priority
 import com.example.notelite3.ui.common.setOnPrioritySelectedListener
 import com.example.notelite3.ui.common.showPriorityDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class QuickAddBottomSheet : BottomSheetDialogFragment() {
 
     private val viewModel: NoteListViewModel by viewModels(
-        ownerProducer = { requireParentFragment() },
-        factoryProducer = { AppViewModelProvider.Factory },
+        ownerProducer = { requireParentFragment() }
     )
 
     private var _binding: BottomSheetQuickAddBinding? = null

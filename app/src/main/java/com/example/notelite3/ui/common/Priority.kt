@@ -16,7 +16,6 @@ import com.example.notelite3.databinding.DialogPriorityBinding
 import com.example.notelite3.databinding.ItemPriorityBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-/** Tên và màu cờ của từng mức ưu tiên (1 cao nhất … 4 thấp nhất). */
 object Priority {
     val ALL = Note.HIGHEST_PRIORITY..Note.DEFAULT_PRIORITY
 
@@ -34,10 +33,6 @@ object Priority {
         ColorStateList.valueOf(ContextCompat.getColor(context, colorRes(priority)))
 }
 
-/**
- * Hộp thoại chọn mức ưu tiên: cờ màu + tên, dấu tích ở mức đang chọn.
- * DialogFragment -> không rò rỉ cửa sổ khi xoay màn hình; kết quả trả qua Fragment Result API.
- */
 class PriorityDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -45,7 +40,6 @@ class PriorityDialogFragment : DialogFragment() {
         val requestKey = requireNotNull(args.getString(ARG_REQUEST_KEY))
         val current = args.getInt(ARG_CURRENT, Note.DEFAULT_PRIORITY)
 
-        // Không dùng `layoutInflater` của Fragment ở đây: nó gọi lại onCreateDialog -> đệ quy
         val inflater = LayoutInflater.from(requireContext())
         val binding = DialogPriorityBinding.inflate(inflater)
 
@@ -90,14 +84,12 @@ class PriorityDialogFragment : DialogFragment() {
     }
 }
 
-/** Mở hộp thoại chọn ưu tiên. Kết quả nhận ở [setOnPrioritySelectedListener] với cùng [requestKey]. */
 fun Fragment.showPriorityDialog(requestKey: String, current: Int) {
     if (childFragmentManager.findFragmentByTag(PriorityDialogFragment.TAG) != null) return
     PriorityDialogFragment.newInstance(requestKey, current)
         .show(childFragmentManager, PriorityDialogFragment.TAG)
 }
 
-/** Gọi trong onViewCreated. Chỉ nhận kết quả khi view còn sống (gắn với viewLifecycleOwner). */
 fun Fragment.setOnPrioritySelectedListener(requestKey: String, onSelected: (Int) -> Unit) {
     childFragmentManager.setFragmentResultListener(requestKey, viewLifecycleOwner) { _, result ->
         onSelected(PriorityDialogFragment.priorityFrom(result))

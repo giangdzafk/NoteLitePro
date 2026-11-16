@@ -1,6 +1,5 @@
 package com.example.notelite3.ui.edit
 
-import com.example.notelite3.ui.AppViewModelProvider
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
@@ -19,11 +18,14 @@ import com.example.notelite3.ui.common.setOnPrioritySelectedListener
 import com.example.notelite3.ui.common.showConfirmDeleteDialog
 import com.example.notelite3.ui.common.showPriorityDialog
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
 
-    private val viewModel: NoteEditViewModel by viewModels { AppViewModelProvider.Factory }
+    private val viewModel: NoteEditViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
