@@ -10,12 +10,7 @@ import com.example.notelite3.R
 import com.example.notelite3.databinding.DialogConfirmDeleteBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-/**
- * Hộp thoại xác nhận xóa: tiêu đề, đường kẻ, lời nhắn, 2 nút bo tròn.
- *
- * Là DialogFragment (không phải AlertDialog thường) nên sống sót khi xoay màn hình,
- * không bị rò rỉ cửa sổ, và kết quả trả về qua Fragment Result API.
- */
+
 class ConfirmDeleteDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -23,7 +18,6 @@ class ConfirmDeleteDialogFragment : DialogFragment() {
         val requestKey = requireNotNull(args.getString(ARG_REQUEST_KEY))
         val noteId = args.getLong(ARG_NOTE_ID)
 
-        // Không dùng `layoutInflater` của Fragment ở đây: nó gọi lại onCreateDialog -> đệ quy
         val binding = DialogConfirmDeleteBinding.inflate(LayoutInflater.from(requireContext()))
         binding.btnKeep.setOnClickListener { dismiss() }
         binding.btnDelete.setOnClickListener {
@@ -57,14 +51,12 @@ class ConfirmDeleteDialogFragment : DialogFragment() {
     }
 }
 
-/** Mở hộp thoại xóa. Kết quả nhận ở [setOnDeleteConfirmedListener] với cùng [requestKey]. */
 fun Fragment.showConfirmDeleteDialog(requestKey: String, noteId: Long = 0L) {
     if (childFragmentManager.findFragmentByTag(ConfirmDeleteDialogFragment.TAG) != null) return
     ConfirmDeleteDialogFragment.newInstance(requestKey, noteId)
         .show(childFragmentManager, ConfirmDeleteDialogFragment.TAG)
 }
 
-/** Gọi trong onViewCreated. Chỉ nhận kết quả khi view còn sống (gắn với viewLifecycleOwner). */
 fun Fragment.setOnDeleteConfirmedListener(requestKey: String, onConfirmed: (noteId: Long) -> Unit) {
     childFragmentManager.setFragmentResultListener(requestKey, viewLifecycleOwner) { _, result ->
         onConfirmed(ConfirmDeleteDialogFragment.noteIdFrom(result))

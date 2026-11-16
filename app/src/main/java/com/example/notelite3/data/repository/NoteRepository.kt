@@ -34,12 +34,10 @@ class NoteRepository(private val noteDao: NoteDao) {
 
     suspend fun deleteNote(note: Note) = noteDao.delete(note)
 
-    /** Khôi phục ghi chú vừa xóa (giữ nguyên id, thời gian và mức ưu tiên). */
     suspend fun restoreNote(note: Note) {
         noteDao.insert(note)
     }
 
-    /** Để tìm "50%" hay "a_b" không bị hiểu thành ký tự đại diện của LIKE. */
     private fun escapeLike(s: String) =
         s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
 }

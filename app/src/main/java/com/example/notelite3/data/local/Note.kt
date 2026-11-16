@@ -13,7 +13,7 @@ data class Note(
     val createAt: Long = System.currentTimeMillis(),
     val updateAt: Long = System.currentTimeMillis(),
     val searchText: String = "$title $content".lowercase(),
-    /** Mức ưu tiên: 1 (cao nhất) … 4 (thấp nhất, mặc định). */
+
     @ColumnInfo(defaultValue = "4")
     val priority: Int = DEFAULT_PRIORITY,
 ) {

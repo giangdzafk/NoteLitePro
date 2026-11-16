@@ -29,11 +29,9 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentNoteEditBinding.bind(view)
 
-        // ① UI -> ViewModel: người dùng gõ thì báo cho ViewModel
         binding.edtTitle.doAfterTextChanged { viewModel.onTitleChange(it?.toString().orEmpty()) }
         binding.edtContent.doAfterTextChanged { viewModel.onContentChange(it?.toString().orEmpty()) }
 
-        // ② Hai đường thoát đều tự lưu (spec mục 8)
         binding.toolbar.setNavigationOnClickListener { viewModel.saveAndExit() }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             viewModel.saveAndExit()

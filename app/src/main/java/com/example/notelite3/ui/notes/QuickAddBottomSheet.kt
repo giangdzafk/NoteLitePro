@@ -23,7 +23,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class QuickAddBottomSheet : BottomSheetDialogFragment() {
 
-    // Dùng chung ViewModel với màn danh sách (fragment cha)
     private val viewModel: NoteListViewModel by viewModels(
         ownerProducer = { requireParentFragment() },
         factoryProducer = { AppViewModelProvider.Factory },
@@ -32,7 +31,6 @@ class QuickAddBottomSheet : BottomSheetDialogFragment() {
     private var _binding: BottomSheetQuickAddBinding? = null
     private val binding get() = _binding!!
 
-    /** null = người dùng chưa chọn -> lưu với mức mặc định. */
     private var selectedPriority: Int? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
@@ -49,7 +47,6 @@ class QuickAddBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Giữ lựa chọn ưu tiên khi xoay màn hình
         selectedPriority = savedInstanceState
             ?.getInt(KEY_PRIORITY, NO_PRIORITY)
             ?.takeIf { it != NO_PRIORITY }

@@ -18,7 +18,7 @@ object AppViewModelProvider {
         }
         initializer {
             NoteEditViewModel(
-                savedStateHandle = createSavedStateHandle(), // chứa noteId từ Navigation
+                savedStateHandle = createSavedStateHandle(),
                 repository = app().container.noteRepository,
             )
         }

@@ -11,11 +11,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    /** Ưu tiên cao (số nhỏ) lên trước; cùng mức thì ghi chú sửa gần nhất lên trước. */
     @Query("SELECT * FROM notes ORDER BY priority ASC, updateAt DESC")
     fun observeAll(): Flow<List<Note>>
 
-    /** [query] đã được escape ký tự đặc biệt của LIKE (%, _, \). */
     @Query("""
         SELECT * FROM notes
         WHERE searchText LIKE '%' || :query || '%' ESCAPE '\'
