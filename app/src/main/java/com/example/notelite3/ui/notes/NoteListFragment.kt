@@ -57,7 +57,7 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    adapter.submitList(state.notes)   // DiffUtil tự tính phần thay đổi
+                    adapter.submitList(state.notes)
                     binding.emptyView.isVisible = !state.isLoading && state.notes.isEmpty()
                     binding.txtEmpty.text =
                         if (state.isSearching) "Không tìm thấy ghi chú phù hợp"
@@ -86,12 +86,12 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchView.clearFocus()   // bấm Enter -> ẩn bàn phím
+                searchView.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.onQueryChange(newText.orEmpty())   // lọc ngay khi gõ
+                viewModel.onQueryChange(newText.orEmpty())
                 return true
             }
         })

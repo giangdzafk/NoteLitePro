@@ -56,7 +56,6 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
             }
         }
 
-        // ③ ViewModel -> UI: chỉ thu thập khi màn hình đang hiển thị (STARTED)
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { viewModel.uiState.collect { render(binding, it) } }
@@ -85,7 +84,7 @@ class NoteEditFragment : Fragment(R.layout.fragment_note_edit) {
         binding.edtTitle.isEnabled = !state.isLoading
         binding.edtContent.isEnabled = !state.isLoading
 
-        // Chỉ setText khi KHÁC nội dung đang hiển thị (giải thích bên dưới)
+
         if (binding.edtTitle.text.toString() != state.title) binding.edtTitle.setText(state.title)
         if (binding.edtContent.text.toString() != state.content) binding.edtContent.setText(state.content)
     }
